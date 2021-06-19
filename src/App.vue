@@ -4,8 +4,6 @@
   </div>
 </template>
 
-
-
 <script>
 import AddTask from './components/AddTask.vue'
 
@@ -31,6 +29,9 @@ export default {
 @media screen and (max-width: 540px) {
    .remove-icon {
     display:block;
+}
+.mylists{
+  font-size: 14px;
 }
  .options-area{
    display: none;

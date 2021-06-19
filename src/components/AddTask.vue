@@ -17,8 +17,8 @@
 
         <div class="py-10 text-white top-holder-x">
             <div class="text-white top-holder">
-            <ul v-for="(todo, index) in filteredTodos" :key="index" class="list-container">
-                <li class="mylists rounded">
+            <ul v-for="(todo, index) in todos" :key="index" class="list-container">
+                <li class="mylists rounded animate__animated animate__zoomIn animate__faster">
                     <div class="w-1/12 sm:pl-6 pl-2">
                     <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
                     </div>
@@ -27,17 +27,17 @@
                 </li>
             </ul>
             </div>
-            <!-- <div class="josefin py-5 px-8 options-area rounded">
-                <h1 class="w-4/12 todo-length">{{ todos.length }} items left</h1>
+            <div class="josefin py-5 px-8 options-area rounded">
+                <!-- <h1 class="w-4/12 todo-length">{{ todos.length }} items left</h1> -->
                 <div class="w-5/12 mx-auto flex  gap-2 btn-control">
                     <button :class="{'active' : true}" @click="myFilter=[true, false]">All</button >
                     <button :class="{'active' : false }"  @click="myFilter=[false]">Active</button >
                     <button :class="{'active' : true }"  @click="myFilter=[true]">Completed</button>
                 </div>
                 <div class="w-3/12 text-right"><button class="text-right cleared" @click="clearCompleted">Clear Completed</button></div>
-            </div> -->
+            </div>
 
-            <!-- <div class="temp-holder hidden josefin rounded text-white pt-7 -mt-6">
+            <div class="temp-holder hidden josefin rounded text-white pt-7 -mt-6">
                 <div class="flex justify-between">
                     <h1 class="w-6/12 todo-length text-white">{{ todos.length }} items left</h1>
                     <div class="w-5/12 text-right"><button class="text-right" @click="clearCompleted">Clear Completed</button></div>
@@ -47,7 +47,7 @@
                     <button  @click="myFilter=[false]">Active</button >
                     <button   @click="myFilter=[true]">Completed</button>
                 </div>
-            </div> -->
+            </div>
 
         </div>
 
@@ -80,11 +80,24 @@ export default {
   },
     
      beforeMount() {
-        this.todos = JSON.parse(localStorage.getItem('todos')) 
+         if(this.todos = []) {
+          fetch('./db.json/') 
+            .then(res => { return res.json()})
+            .then(data => { localStorage['defaultTodo'] = JSON.stringify(data)
+           this.todos = JSON.parse(localStorage.getItem('defaultTodo')) 
+            })
+             
+         } else if(this.todos = []) {
+             this.todos = JSON.parse(localStorage.getItem('todos')) 
+         }
+        
         this.currentmode = localStorage.getItem('todoMode')
         this.mode = this.currentmode
         },
     
+        //  created() {
+        //         setInterval(this.getNow, 1000);
+        //     },
 
   methods: {
       addTodo(e) {
@@ -92,6 +105,7 @@ export default {
         this.todo = ({
             text: this.myTodos,
             completed: false
+            
         })
         this.myTodos = '', e.target.style.border = 'none'
         this.saveToLocalstorage()
@@ -100,11 +114,23 @@ export default {
         }
    
       },
+
+    //    getNow: function() {
+    //         const today = new Date();
+    //         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    //         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    //         const dateTime = date +' '+ time;
+    //         this.timestamp = dateTime;
+    //         console.log(date)
+    //     },
       
 
       pushToLocalStorage() { localStorage.setItem('todos', JSON.stringify(this.todos))},
 
-      deleteTodo() { this.deleteFromLocalstorage() },
+      deleteTodo(index) {
+           this.todos.splice(index, 1);
+           this.pushToLocalStorage();
+           },
         
       completedTodos(todo) {
         todo.completed = !todo.completed; this.pushToLocalStorage()
@@ -112,10 +138,6 @@ export default {
 
       saveToLocalstorage() {
         this.todos.push(this.todo); this.pushToLocalStorage();
-      },
-
-      deleteFromLocalstorage(index) {
-        this.todos.splice(index, 1); this.pushToLocalStorage();
       },
 
       clearCompleted() {
@@ -209,6 +231,7 @@ export default {
     background: hsla(235, 24%, 19%);
     padding:20px 12px;
     transition: background 0.5s ease-in-out;
+    font-size: 18px;
 }
 
 .dark .mylists{

@@ -7,3 +7,12 @@
                 </div>
                 <button class="w-3/12 text-right" @click="clearCompleted">Clear Completed</button>
             </div>
+
+             fetch('./db.json/') 
+            .then(res => { return res.json();
+            })
+            .then(data => {
+            console.log(data.todos)
+            // data.todos = localStorage.setItem('todos', JSON.stringify(this.todos))
+            // localStorage['data'] = JSON.stringify(data)
+            })

@@ -20,9 +20,12 @@
             <ul v-for="(todo, index) in todos" :key="index" class="list-container">
                 <li class="mylists rounded animate__animated animate__zoomIn animate__faster">
                     <div class="w-1/12 sm:pl-6 pl-2">
-                    <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
+                        <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
                     </div>
-                    <div class="w-8/12 -ml-4" :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
+                    <div  class="w-8/12 -ml-4">
+                        <div :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
+                        <div class="myDate">{{ todo.date }}</div>
+                    </div>
                     <div title="Delete todo from list" class="w-1/12" @click="deleteTodo(index)"><img  class="cursor-pointer w-5 mx-auto remove-icon" src="../assets/images/icon-cross.svg" alt=""></div>
                 </li>
             </ul>
@@ -80,14 +83,14 @@ export default {
   },
     
      beforeMount() {
-         if(this.todos = []) {
+         if(!this.todos) {
           fetch('./db.json/') 
             .then(res => { return res.json()})
-            .then(data => { localStorage['defaultTodo'] = JSON.stringify(data)
-           this.todos = JSON.parse(localStorage.getItem('defaultTodo')) 
+            .then(data => { localStorage['todos'] = JSON.stringify(data)
+           this.todos = JSON.parse(localStorage.getItem('todos')) 
             })
              
-         } else if(this.todos = []) {
+         } else {
              this.todos = JSON.parse(localStorage.getItem('todos')) 
          }
         
@@ -95,16 +98,17 @@ export default {
         this.mode = this.currentmode
         },
     
-        //  created() {
-        //         setInterval(this.getNow, 1000);
-        //     },
+         created() {
+                setInterval(this.getNow, 1000);
+            },
 
   methods: {
       addTodo(e) {
         if(this.myTodos != "") {
         this.todo = ({
             text: this.myTodos,
-            completed: false
+            completed: false,
+            date: this.date
             
         })
         this.myTodos = '', e.target.style.border = 'none'
@@ -115,14 +119,15 @@ export default {
    
       },
 
-    //    getNow: function() {
-    //         const today = new Date();
-    //         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    //         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //         const dateTime = date +' '+ time;
-    //         this.timestamp = dateTime;
-    //         console.log(date)
-    //     },
+       getNow: function() {
+            const today = new Date();
+            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            // const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            // const dateTime = date +' '+ time;
+            // this.timestamp = dateTime;
+            console.log(date)
+            this.date = date
+        },
       
 
       pushToLocalStorage() { localStorage.setItem('todos', JSON.stringify(this.todos))},
@@ -313,7 +318,14 @@ export default {
 .cleared {
     grid-column: 1 /span 4;
 }
-
+.myDate{
+    font-family: 'Great Vibes', cursive;
+    font-size: 16px;
+    color:rgb(52, 224, 224);
+}
+.dark .myDate{
+     color:rgb(1, 27, 27);
+}
 
 
 

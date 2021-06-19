@@ -1,0 +1,9 @@
+ <div class="josefin py-5 px-8 options-area rounded">
+                <h1 class="w-4/12">{{ todos.length }} items left</h1>
+                <div class="w-5/12 mx-auto flex gap-2">
+                    <button :class="{'active' : myFilter === 'true'}" @click="myFilter=[true, false]">All</button >
+                    <button :class="{'active' : false }"  @click="myFilter=[false]">Active</button >
+                    <button :class="{'active' : true }"  @click="myFilter=[true]">Completed</button>
+                </div>
+                <button class="w-3/12 text-right" @click="clearCompleted">Clear Completed</button>
+            </div>

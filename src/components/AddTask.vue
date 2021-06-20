@@ -85,16 +85,21 @@ export default {
   },
     
      beforeMount() {
-            if(!this.todos) {
-          fetch('./db.json/') 
-            .then(res => { return res.json()})
-            .then(data => { localStorage['todos'] = JSON.stringify(data)
-           this.todos = JSON.parse(localStorage.getItem('todos')) 
-            })
+        //     if(!this.todos) {
+        //   fetch('./db.json/') 
+        //     .then(res => { return res.json()})
+        //     .then(data => { localStorage['todos'] = JSON.stringify(data)
+        //    this.todos = JSON.parse(localStorage.getItem('todos')) 
+        //     })
              
-         } else {
-             this.todos = JSON.parse(localStorage.getItem('todos')) 
-         }
+        //  } else {
+        //      this.todos = JSON.parse(localStorage.getItem('todos')) 
+        //  }
+            if (this.todos) {
+            this.todos = JSON.parse(localStorage.getItem('todos'))  
+            } else 
+            return false
+  
        
         this.currentmode = localStorage.getItem('todoMode')
         this.mode = this.currentmode
@@ -338,7 +343,7 @@ export default {
   margin-right: 10px;
 }
 .list-enter-active, .list-leave-active {
-  transition: all 1s;
+  transition: all 0.6s;
 }
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;

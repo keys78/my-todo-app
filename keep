@@ -46,3 +46,28 @@
                         <div :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
                         <!-- <div class="myDate">{{ todo.date }}</div> -->
                     </div>
+
+
+                     animate__animated animate__zoomIn animate__faster
+
+
+
+
+
+
+
+
+
+
+                    
+
+
+
+
+
+    //  filteredTodos() {
+    //     let myFilter = this.myFilter;
+    //     return this.todos.filter((todo) => {
+    //         return myFilter.indexOf(todo.completed) >= 1; 
+    //     })
+    //     },

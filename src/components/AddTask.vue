@@ -17,7 +17,8 @@
 
         <div class="py-10 text-white top-holder-x">
             <div class="text-white top-holder">
-            <ul v-for="(todo, index) in filteredTodos" :key="todo" class="list-container animate__animated animate__zoomIn animate__faster">
+            <transition-group name="list" tag="p">
+            <ul v-for="(todo, index) in filteredTodos" :key="todo" class="list-container">
                 <li class="mylists rounded ">
                     <div class="w-1/12 sm:pl-6 pl-2">
                     <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
@@ -29,6 +30,7 @@
                     <div title="Delete todo from list" class="w-1/12" @click="deleteTodo(index)"><img  class="cursor-pointer w-5 mx-auto remove-icon" src="../assets/images/icon-cross.svg" alt=""></div>
                 </li>
             </ul>
+            </transition-group>
             </div>
             <div class="josefin py-5 px-8 options-area rounded">
                 <h1 class="w-4/12 todo-length">{{ todos.length }} items left</h1>
@@ -314,16 +316,6 @@ export default {
     transition: background 0.5s ease-in-out;
 }
 
-/* .todo-length {
-    grid-column: 1 /span 4;
-}
-.control-btn {
-    grid-column: 2 /span 4;
-}
-
-.cleared {
-    grid-column: 1 /span 4;
-} */
 
 .myDate{
     font-family: 'Great Vibes', cursive;
@@ -341,8 +333,17 @@ export default {
     color:rgb(4, 4, 44);
 }
 
-
-
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
 
 
 .top-holder-x{

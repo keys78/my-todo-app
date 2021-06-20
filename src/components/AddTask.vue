@@ -1,9 +1,9 @@
 <template>
   <div class="hero h-screen" :class="mode">
-    <div class="imgHolder h-72 w-full"> </div>
+    <div class="imgHolder h-64 w-full"> </div>
 
    
-    <div class="xl:w-5/12 lg:w-6/12 md:w-7/12 sm:w-9/12 w-11/12 mx-auto sm:-mt-60 -mt-60">
+    <div class="xl:w-5/12 lg:w-6/12 md:w-7/12 sm:w-9/12 w-11/12 mx-auto -mt-60 ">
         <div class="my-header">
             <h1>TODO</h1>
             <NightModeButton :mode="mode" @nightMode="nightMode"/>

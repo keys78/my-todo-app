@@ -3,7 +3,7 @@
     <div class="imgHolder h-72 w-full"> </div>
 
    
-    <div class="xl:w-5/12 lg:w-6/12 md:w-7/12 sm:w-9/12 w-11/12 mx-auto -mt-60">
+    <div class="xl:w-5/12 lg:w-6/12 md:w-7/12 sm:w-9/12 w-11/12 mx-auto sm:-mt-60 -mt-60">
         <div class="my-header">
             <h1>TODO</h1>
             <NightModeButton :mode="mode" @nightMode="nightMode"/>
@@ -16,46 +16,39 @@
         </form>
 
         <div class="py-10 text-white top-holder-x">
-            <div class="text-white top-holder">
-            <transition-group name="list" tag="p">
-            <ul v-for="(todo, index) in filteredTodos" :key="todo" class="list-container">
-                <li class="mylists rounded ">
-                    <div class="w-1/12 sm:pl-6 pl-2">
-                    <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
-                    </div>
-                     <div  class="w-8/12 -ml-4">
-                        <div :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
-                        <div class="myDate">{{ todo.date }}</div>
-                    </div>
-                    <div title="Delete todo from list" class="w-1/12" @click="deleteTodo(index)"><img  class="cursor-pointer w-5 mx-auto remove-icon" src="../assets/images/icon-cross.svg" alt=""></div>
-                </li>
-            </ul>
-            </transition-group>
+            <div v-if="todos.length" class="text-white top-holder">
+                <transition-group name="list" tag="p">
+                    <ul v-for="(todo, index) in filteredTodos" :key="todo" class="list-container">
+                        <li class="mylists rounded ">
+                            <div class="w-1/12 sm:pl-6 pl-2">
+                            <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
+                            </div>
+                            <div  class="w-8/12 -ml-4">
+                                <div :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
+                                <div class="myDate">{{ todo.date }}</div>
+                            </div>
+                            <div title="Delete todo from list" class="w-1/12" @click="deleteTodo(index)"><img  class="cursor-pointer w-5 mx-auto remove-icon" src="../assets/images/icon-cross.svg" alt=""></div>
+                        </li>
+                    </ul>
+                </transition-group>
             </div>
-            <div class="josefin py-5 px-8 options-area rounded">
-                <h1 class="w-4/12 todo-length">{{ todos.length }} items left</h1>
-                <div class="w-5/12 mx-auto flex  gap-2 btn-control">
+            <div v-else class="text-gray-100 pt-20 pb-10 v-else-group text-center">
+                <img class="mx-auto" src="../assets/images/illustration-empty.svg" alt="sideArrow" />
+                <h1 class="font-bold text-xl pt-8">There is nothing here</h1>
+                <p class="invoice-inherit bg-transparent">Hey Champ! create a new todo to get started.</p>
+            </div>
+            <div class="josefin py-5 options-area rounded">
+                <h1 class="todo-length">{{ todos.length }} items left</h1>
+                <div class="flex md:gap-4 gap-3 btn-control">
                     <button :class="{active : type === ''}" class="focus:outline-none" @click="myFilter('')">All</button >
                     <button :class="{active : type === 'active'}" class="focus:outline-none" @click="myFilter('active')">Active</button >
                     <button :class="{active : type === 'completed'}" class="focus:outline-none" @click="myFilter('completed')">Completed</button>
                 </div>
-                <div class="w-3/12 text-right"><button class="text-right cleared" @click="clearCompleted">Clear Completed</button></div>
-            </div>
-
-            <div class="temp-holder hidden josefin rounded on2  pt-16 px-4 -mt-6">
-                <div class="flex justify-between">
-                    <h1 class="w-6/12 todo-length ">{{ todos.length }} items left</h1>
-                    <div class="w-5/12 text-right"><button class="text-right" @click="clearCompleted">Clear Completed</button></div>
-                </div>
-                <div class="w-5/12 mx-auto flex mt-4  gap-2">
-                    <button :class="{active : type === ''}" @click="myFilter('')">All</button >
-                    <button :class="{active : type === 'active'}" @click="myFilter('active')">Active</button >
-                    <button :class="{active : type === 'completed'}" @click="myFilter('completed')">Completed</button>
-                </div>
+                <div class="cleared-grp text-right"><button class="focus:outline-none" @click="clearCompleted">Clear Completed</button></div>
             </div>
 
         </div>
-
+       
 
     </div>
   </div>
@@ -303,18 +296,32 @@ export default {
   }
 .options-area{
     color:white;
-    background: rgb(31, 33, 56);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: hsla(235, 24%, 19%);
     transition: background 0.5s ease-in-out;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
    
 }
 .dark .options-area{
     color:hsl(235, 21%, 11%);
-    background: rgb(244, 249, 255);
+    background: rgb(234, 243, 255);
     transition: background 0.5s ease-in-out;
 }
+
+.btn-control{
+  grid-column: span 3;
+
+  margin: 0 auto;
+}
+.cleared-grp{
+    grid-column: span 2;
+    padding-right: 25px;
+}
+.todo-length{
+    grid-column: span 1;
+    padding-left: 25px;
+} 
 
 
 .myDate{
@@ -345,9 +352,11 @@ export default {
   transform: translateY(30px);
 }
 
-
+.dark .v-else-group{
+    color:rgb(4, 4, 44);
+}
 .top-holder-x{
-    height: 540px;
+    height: 560px;
 }
 .active{
     color:blue;

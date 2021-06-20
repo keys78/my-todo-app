@@ -34,35 +34,66 @@ export default {
   font-size: 14px;
 }
  .options-area{
-   display: none;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: center;
-  align-items: center; */
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    background:transparent;
+    margin-top:-20px;
+
 }
-/*
+
 .btn-control{
-  order:0;
-  background: red;
-  width:100%;
-  margin:0 auto;
-  grid-column: span 2;
+  grid-column: span 6;
+  margin: 0 auto;
+  order: 1;
+  background: hsla(235, 24%, 19%);
+  transition: background 0.5s ease-in-out;
+  width: 100%;
+  margin-top:12px;
+  padding:10px 85px;
+  border-radius: 4px;
 }
-.cleared{
-  width:50%;
-  order:0;
-  background: green;
+.dark .btn-control  {
+  color:hsl(235, 21%, 11%);
+  background: rgb(244, 249, 255);
+  transition: background 0.5s ease-in-out;
 }
+.dark .cleared-grp{
+  color:hsl(235, 21%, 11%);
+  background: rgb(244, 249, 255);
+  transition: background 0.5s ease-in-out;
+}
+
+.cleared-grp{
+  grid-column: span 3;
+  padding:16px ;
+  background: hsla(235, 24%, 19%);
+  transition: background 0.5s ease-in-out;
+}
+
+
 .todo-length{
-  width:50%;
-  order:0;
-  background: rgb(255, 177, 10);
-} */
+  grid-column: span 3;
+  padding:16px ;
+  background: hsla(235, 24%, 19%);
+  transition: background 0.5s ease-in-out;
+
+} 
+
+.dark .todo-length {
+  color:hsl(235, 21%, 11%);
+  background: rgb(244, 249, 255);
+  transition: background 0.5s ease-in-out;
+} 
+
 .temp-holder{
-   display: block;
+  display: block;
 }
+
 .dark .options-area{
   background: white;
+}
+.top-holder{
+    height: 350px;
 }
 }
 

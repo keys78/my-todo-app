@@ -85,21 +85,16 @@ export default {
   },
     
      beforeMount() {
-        //     if(!this.todos) {
-        //   fetch('./db.json/') 
-        //     .then(res => { return res.json()})
-        //     .then(data => { localStorage['todos'] = JSON.stringify(data)
-        //    this.todos = JSON.parse(localStorage.getItem('todos')) 
-        //     })
-             
-        //  } else {
-        //      this.todos = JSON.parse(localStorage.getItem('todos')) 
-        //  }
-            // if (this.todos) {
-            // this.todos = JSON.parse(localStorage.getItem('todos'))  
-            // } else 
-            // return false
-  
+          this.newTodos = JSON.parse(localStorage.getItem('todos'))
+            if (this.newTodos === null) {
+              fetch('./db.json/') 
+            .then(res => { return res.json()})
+            .then(data => { localStorage['defaultTodo'] = JSON.stringify(data)
+           this.todos = JSON.parse(localStorage.getItem('defaultTodo'))
+            })
+           } else {
+               this.todos = this.newTodos
+           }
        
         this.currentmode = localStorage.getItem('todoMode')
         this.mode = this.currentmode

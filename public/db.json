@@ -2,26 +2,32 @@
 [
     {
       "text": "Complete online javascript course",
-      "completed": true
+      "completed": true,
+      "date": "2021-6-03"
     },
     {
       "text": "Jog around the park 3x",
-      "completed": false
+      "completed": false,
+      "date": "2021-6-07"
     },
     {
       "text": "10 minuites mediation",
-      "completed": false
+      "completed": false,
+      "date": "2021-6-09"
     },
     {
       "text": "Read for 1 hour",
-      "completed": false
+      "completed": false,
+      "date": "2021-6-12"
     },
     {
       "text": "Pick up groceries",
-      "completed": false
+      "completed": false,
+      "date": "2021-6-16"
     },
     {
       "text": "Complete Todo App on Frontend Mentor",
-      "completed": false
+      "completed": false,
+      "date": "2021-6-20"
     }
   ]

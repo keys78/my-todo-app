@@ -1,7 +1,5 @@
 <template>
-  <div class="darkPadding">
     <img class="cursor-pointer" :src="(mode === 'dark') ?  Moon  : Sun " @click="$emit('nightMode')"/>
-  </div>
 </template>
 
 <script>

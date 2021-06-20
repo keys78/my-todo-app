@@ -8,11 +8,41 @@
                 <button class="w-3/12 text-right" @click="clearCompleted">Clear Completed</button>
             </div>
 
-             fetch('./db.json/') 
-            .then(res => { return res.json();
-            })
-            .then(data => {
-            console.log(data.todos)
-            // data.todos = localStorage.setItem('todos', JSON.stringify(this.todos))
-            // localStorage['data'] = JSON.stringify(data)
-            })
+            //  if(!this.todos) {
+        //   fetch('./db.json/') 
+        //     .then(res => { return res.json()})
+        //     .then(data => { localStorage['todos'] = JSON.stringify(data)
+        //    this.todos = JSON.parse(localStorage.getItem('todos')) 
+        //     })
+             
+        //  } else {
+        //      this.todos = JSON.parse(localStorage.getItem('todos')) 
+        //  }
+
+        //  created() {
+        //         setInterval(this.getNow, 1000);
+        //     },
+
+         date: this.date
+
+
+         //    getNow: function() {
+    //         const today = new Date();
+    //         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    //         this.date = date
+    //     },
+      
+
+      .myDate{
+    font-family: 'Great Vibes', cursive;
+    font-size: 16px;
+    color:rgb(52, 224, 224);
+}
+.dark .myDate{
+     color:rgb(1, 27, 27);
+}
+
+ <div  class="w-8/12 -ml-4">
+                        <div :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
+                        <!-- <div class="myDate">{{ todo.date }}</div> -->
+                    </div>

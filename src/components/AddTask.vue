@@ -17,12 +17,12 @@
 
         <div class="py-10 text-white top-holder-x">
             <div class="text-white top-holder">
-            <ul v-for="(todo, index) in todos" :key="index" class="list-container">
-                <li class="mylists rounded animate__animated animate__zoomIn animate__faster">
+            <ul v-for="(todo, index) in filteredTodos" :key="todo" class="list-container animate__animated animate__zoomIn animate__faster">
+                <li class="mylists rounded ">
                     <div class="w-1/12 sm:pl-6 pl-2">
-                        <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
+                    <div title="Mark as completed" @click="completedTodos(todo)" :class="{'checked' : todo.completed}" class="unchecked cursor-pointer  h-5 w-5 rounded-full"><img :class="{'icon-checked' : todo.completed}" class="w-3 pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div>
                     </div>
-                    <div  class="w-8/12 -ml-4">
+                     <div  class="w-8/12 -ml-4">
                         <div :class="{'textChecked' : todo.completed}">{{ todo.text }}</div>
                         <div class="myDate">{{ todo.date }}</div>
                     </div>
@@ -31,24 +31,24 @@
             </ul>
             </div>
             <div class="josefin py-5 px-8 options-area rounded">
-                <!-- <h1 class="w-4/12 todo-length">{{ todos.length }} items left</h1> -->
+                <h1 class="w-4/12 todo-length">{{ todos.length }} items left</h1>
                 <div class="w-5/12 mx-auto flex  gap-2 btn-control">
-                    <button :class="{'active' : true}" @click="myFilter=[true, false]">All</button >
-                    <button :class="{'active' : false }"  @click="myFilter=[false]">Active</button >
-                    <button :class="{'active' : true }"  @click="myFilter=[true]">Completed</button>
+                    <button :class="{active : type === ''}" class="focus:outline-none" @click="myFilter('')">All</button >
+                    <button :class="{active : type === 'active'}" class="focus:outline-none" @click="myFilter('active')">Active</button >
+                    <button :class="{active : type === 'completed'}" class="focus:outline-none" @click="myFilter('completed')">Completed</button>
                 </div>
                 <div class="w-3/12 text-right"><button class="text-right cleared" @click="clearCompleted">Clear Completed</button></div>
             </div>
 
-            <div class="temp-holder hidden josefin rounded text-white pt-7 -mt-6">
+            <div class="temp-holder hidden josefin rounded on2  pt-16 px-4 -mt-6">
                 <div class="flex justify-between">
-                    <h1 class="w-6/12 todo-length text-white">{{ todos.length }} items left</h1>
+                    <h1 class="w-6/12 todo-length ">{{ todos.length }} items left</h1>
                     <div class="w-5/12 text-right"><button class="text-right" @click="clearCompleted">Clear Completed</button></div>
                 </div>
-                <div class="w-5/12 mx-auto flex  gap-2">
-                    <button @click="myFilter=[true, false]">All</button >
-                    <button  @click="myFilter=[false]">Active</button >
-                    <button   @click="myFilter=[true]">Completed</button>
+                <div class="w-5/12 mx-auto flex mt-4  gap-2">
+                    <button :class="{active : type === ''}" @click="myFilter('')">All</button >
+                    <button :class="{active : type === 'active'}" @click="myFilter('active')">Active</button >
+                    <button :class="{active : type === 'completed'}" @click="myFilter('completed')">Completed</button>
                 </div>
             </div>
 
@@ -76,14 +76,14 @@ export default {
         message:'',
         todos:[],
         completed:'',
-        myFilter: [true, false],
+        type:'',
         mode:'',
 
       }
   },
     
      beforeMount() {
-         if(!this.todos) {
+            if(!this.todos) {
           fetch('./db.json/') 
             .then(res => { return res.json()})
             .then(data => { localStorage['todos'] = JSON.stringify(data)
@@ -93,12 +93,12 @@ export default {
          } else {
              this.todos = JSON.parse(localStorage.getItem('todos')) 
          }
-        
+       
         this.currentmode = localStorage.getItem('todoMode')
         this.mode = this.currentmode
         },
     
-         created() {
+     created() {
                 setInterval(this.getNow, 1000);
             },
 
@@ -118,16 +118,6 @@ export default {
         }
    
       },
-
-       getNow: function() {
-            const today = new Date();
-            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            // const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            // const dateTime = date +' '+ time;
-            // this.timestamp = dateTime;
-            console.log(date)
-            this.date = date
-        },
       
 
       pushToLocalStorage() { localStorage.setItem('todos', JSON.stringify(this.todos))},
@@ -142,7 +132,7 @@ export default {
       },
 
       saveToLocalstorage() {
-        this.todos.push(this.todo); this.pushToLocalStorage();
+        this.todos.unshift(this.todo); this.pushToLocalStorage();
       },
 
       clearCompleted() {
@@ -154,13 +144,29 @@ export default {
        localStorage.setItem('todoMode', this.mode)
       },
 
+      myFilter(type) {
+          this.type = type
+      },
+
+        getNow: function() {
+            const today = new Date();
+            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            this.date = date
+        },
+
   },
   
   computed: {
      filteredTodos() {
-        let myFilter = this.myFilter;
-        return this.todos.filter((todo) => {
-            return myFilter.indexOf(todo.completed) >= 1; 
+        return this.todos.filter(todo => {
+            switch(this.type) {
+                case 'active':
+                    return !todo.completed;
+                case 'completed':
+                    return todo.completed;
+                default:
+                    return true;
+            }
         })
         },
 
@@ -234,7 +240,7 @@ export default {
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.301);
     background: hsla(235, 24%, 19%);
-    padding:20px 12px;
+    padding:16px 12px;
     transition: background 0.5s ease-in-out;
     font-size: 18px;
 }
@@ -308,7 +314,7 @@ export default {
     transition: background 0.5s ease-in-out;
 }
 
-.todo-length {
+/* .todo-length {
     grid-column: 1 /span 4;
 }
 .control-btn {
@@ -317,7 +323,8 @@ export default {
 
 .cleared {
     grid-column: 1 /span 4;
-}
+} */
+
 .myDate{
     font-family: 'Great Vibes', cursive;
     font-size: 16px;
@@ -327,8 +334,12 @@ export default {
      color:rgb(1, 27, 27);
 }
 
-
-
+.on2{
+    color:white;
+}
+.dark .on2 {
+    color:rgb(4, 4, 44);
+}
 
 
 
@@ -339,9 +350,6 @@ export default {
 }
 .active{
     color:blue;
-}
-.actived{
-    color:rgb(197, 9, 65);
 }
 
 </style>

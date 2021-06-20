@@ -95,10 +95,10 @@ export default {
         //  } else {
         //      this.todos = JSON.parse(localStorage.getItem('todos')) 
         //  }
-            if (this.todos) {
-            this.todos = JSON.parse(localStorage.getItem('todos'))  
-            } else 
-            return false
+            // if (this.todos) {
+            // this.todos = JSON.parse(localStorage.getItem('todos'))  
+            // } else 
+            // return false
   
        
         this.currentmode = localStorage.getItem('todoMode')

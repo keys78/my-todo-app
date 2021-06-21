@@ -91,10 +91,13 @@ export default {
        
         this.currentmode = localStorage.getItem('todoMode')
         this.mode = this.currentmode
+        document.title = 'Total todos' + ' ' + '('+ this.todos.length +')'
+       
         },
     
      created() {
-                setInterval(this.getNow, 1000);
+            setInterval(this.getNow, 1000);
+            
             },
 
   methods: {
@@ -106,6 +109,7 @@ export default {
             date: this.date
             
         })
+       
         this.myTodos = '', e.target.style.border = 'none'
         this.saveToLocalstorage()
         } else {
@@ -347,7 +351,7 @@ export default {
 .list-enter-active, .list-leave-active {
   transition: all 0.6s;
 }
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+.list-enter, .list-leave-to /* .l */ {
   opacity: 0;
   transform: translateY(30px);
 }
